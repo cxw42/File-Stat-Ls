@@ -5,8 +5,7 @@ SYNOPSIS
       use File::Stat::Ls;
 
       my $obj = File::Stat::Ls->new;
-      my @a = statstat('/file/name.txt'); 
-      my $ls = $obj->ls_stat(@a);
+      my $ls = $obj->ls_stat('/my/file/name.txt');
 
 DESCRIPTION
     This class contains methods to convert stat elements into ls format. It
@@ -83,9 +82,48 @@ METHODS
       lrwxrwxrwx   1 oracle7  dba           40 Jun 12  2002 linked.pl 
                    -> /opt/bin/linked2.pl
 
+  stat_attr ($fn, $typ)
+
+    Input variables:
+
+      $fn - file name for getting stat attributes
+         ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+          $atime,$mtime,$ctime,$blksize,$blocks) = stat($fn);
+      $typ - what type of object that you want it to return.
+        The default is to return a hash containing filename, longname,
+        and a hash ref with all the element from stat.
+        SFTP - to return a Net::SFTP::Attributes object 
+    
+    Variables used or routines called:
+
+      ls_stat
+
+    How to use:
+
+       my $hr = $self->stat_attr($fn);  # get hash ref
+       my %h  = $self->stat_attr($fn);  # get hash
+
+    Return: $hr or %h where the hash elements are depended on the type. The
+    default is to get a hash array with the following elements:
+
+      filename - file name
+      longname - the ls_stat string for the file
+      a        - the attributes of the file with the following elements:
+                 dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,
+                 ctime,blksize,blocks
+
+    If the type is SFTP, then it will only return a *Net::SFTP::Attributes*
+    object with the following elements:
+
+      flags,perm,uid,gid,size,atime,mtime
+
 HISTORY
     * Version 0.10
-        This version includes two methods: format_mode and ls_stat.
+        This version includes two methods: format_mode and ls_stat. It is
+        uploaded to CPAN on 7/11/2005.
+
+    * Version 0.11
+        07/12/2005 (htu) - added stat_attr method.
 
 SEE ALSO (some of docs that I check often)
         Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy,

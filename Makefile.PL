@@ -30,10 +30,10 @@ use ExtUtils::AutoInstall (
     -version        => '0.40',
 );
 WriteMakefile(
-    DISTNAME        => 'File-Stat-Ls-0.10.tar.gz'    ,
+    DISTNAME        => 'File-Stat-Ls-0.11.tar.gz'    ,
     ABSTRACT        => 'Perl class for converting stat to ls -l format',
     NAME            => 'File::Stat::Ls'              ,
     PREREQ_PM       => {Test::Harness => 0.1,Test::More => 0.45,},
     AUTHOR          => 'geotiger2001@yahoo.com'      ,
-    VERSION         => 0.10                          ,
+    VERSION         => 0.11                          ,
 );

@@ -8,12 +8,12 @@ use POSIX qw(strftime);
 
 
 require 5.003;
-my $VERSION = 0.10;
+my $VERSION = 0.11;
 
 require Exporter;
 our @ISA         = qw(Exporter);
 our @EXPORT      = qw(ls_stat format_mode);
-our @EXPORT_OK   = qw(ls_stat format_mode
+our @EXPORT_OK   = qw(ls_stat format_mode stat_attr
     );
 our %EXPORT_TAGS = (
     all  => [@EXPORT_OK]
@@ -30,8 +30,7 @@ File::Stat::Ls - Perl class for converting stat to ls -l format
   use File::Stat::Ls;
 
   my $obj = File::Stat::Ls->new;
-  my @a = statstat('/file/name.txt'); 
-  my $ls = $obj->ls_stat(@a);
+  my $ls = $obj->ls_stat('/my/file/name.txt');
 
 =head1 DESCRIPTION
 
@@ -194,6 +193,82 @@ sub ls_stat {
     return sprintf $fmt, $fm,$nlink,$ud,$gd,$size,$mt,$fn;
 }
 
+=head2 stat_attr ($fn, $typ)
+
+Input variables:
+
+  $fn - file name for getting stat attributes
+     ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+      $atime,$mtime,$ctime,$blksize,$blocks) = stat($fn);
+  $typ - what type of object that you want it to return.
+    The default is to return a hash containing filename, longname,
+    and a hash ref with all the element from stat.
+    SFTP - to return a Net::SFTP::Attributes object 
+    
+
+
+Variables used or routines called:
+
+  ls_stat
+
+How to use:
+
+   my $hr = $self->stat_attr($fn);  # get hash ref
+   my %h  = $self->stat_attr($fn);  # get hash
+
+Return: $hr or %h where the hash elements are depended on the type.
+The default is to get a hash array with the following elements:
+
+  filename - file name
+  longname - the ls_stat string for the file
+  a        - the attributes of the file with the following elements:
+             dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,
+             ctime,blksize,blocks
+
+If the type is SFTP, then it will only return a 
+I<Net::SFTP::Attributes> object with the following elements: 
+
+  flags,perm,uid,gid,size,atime,mtime
+
+=cut
+
+sub stat_attr {
+    my $s = ref($_[0]) ? shift : (File::Stat::Ls->new);
+    my ($fn,$typ) = @_; 
+    croak "ERR: no file name for stat_attr.\n" if ! $fn;
+    return undef if ! $fn;
+    my $vs  = 'dev,ino,mode,nlink,uid,gid,rdev,size,atime,mtime,';
+       $vs .= 'ctime,blksize,blocks';
+    my $v1  = 'flags,perm,uid,gid,size,atime,mtime';
+    my $ls = ls_stat $fn;  chomp $ls;
+    my @a = (); my @v = (); 
+    my $attr = {};
+    if ($typ && $typ =~ /SFTP/i) {
+        @v = split /,/, $v1; 
+        @a = (stat($fn))[1,2,4,5,7,8,9];
+        %$attr = map { $v[$_] => $a[$_] } 0..$#a ;
+        # 'SSH2_FILEXFER_ATTR_SIZE' => 0x01,
+        # 'SSH2_FILEXFER_ATTR_UIDGID' => 0x02,
+        # 'SSH2_FILEXFER_ATTR_PERMISSIONS' => 0x04,
+        # 'SSH2_FILEXFER_ATTR_ACMODTIME' => 0x08,
+        $attr->{flags} = 0; 
+        $attr->{flags} |= 0x01; 
+        $attr->{flags} |= 0x02; 
+        $attr->{flags} |= 0x04; 
+        $attr->{flags} |= 0x08; 
+        return wantarray ? %{$attr} : $attr;
+    } else { 
+        @v = split /,/, $vs; 
+        @a = stat($fn);
+        %$attr = map { $v[$_] => $a[$_] } 0..$#a ;
+    }
+    my %r = (filename=>$fn, longname=>$ls, a=>$attr);
+    # foreach my $k (keys %r) { print "$k=$r{$k}\n"; }
+    # foreach my $k (keys %a) { print "$k=$a{$k}\n"; }
+    # print "X: " . (wantarray ? %r : \%r) . "\n";
+    return wantarray ? %r : \%r;
+}
+
 1;
 
 =head1 HISTORY
@@ -202,7 +277,12 @@ sub ls_stat {
 
 =item * Version 0.10
 
-This version includes two methods: format_mode and ls_stat.
+This version includes two methods: format_mode and ls_stat. 
+It is uploaded to CPAN on 7/11/2005.
+
+=item * Version 0.11
+
+07/12/2005 (htu) - added stat_attr method.
 
 =cut
 
