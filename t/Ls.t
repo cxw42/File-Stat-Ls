@@ -1,6 +1,5 @@
-# Before `make install' is performed this script should be runnable with
-# `make test'. After `make install' it should work as `perl test.pl'
-
+#!/usr/bin/env perl
+use 5.006;
 use strict;
 use warnings;
 
@@ -37,7 +36,6 @@ foreach my $m (@md) {
 #     print $obj->ls_stat("$f2/$f");
 # }
 
-exit;
+cmp_ok(length($obj->ls_stat(__FILE__)), '>', 0, 'Can list ' . __FILE__);
 
-1;
-
+done_testing;

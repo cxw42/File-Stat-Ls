@@ -8,7 +8,7 @@ use POSIX qw(strftime);
 
 
 require 5.003;
-my $VERSION = 0.11;
+our $VERSION = '0.11';
 
 require Exporter;
 our @ISA         = qw(Exporter);

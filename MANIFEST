@@ -1,6 +1,6 @@
-Ls.pm
-test.pl
+lib/File/Stat/Ls.pm
 Makefile.PL
-t/Ls.t
-File-Stat-Ls-0.11.readme
+MANIFEST
+MANIFEST.SKIP
 README
+t/Ls.t
