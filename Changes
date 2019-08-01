@@ -1,0 +1,10 @@
+Revision history for File-Spec-Ls
+
+0.11    7/12/2005
+
+added stat_attr method.
+
+0.10    7/11/2005
+
+This version includes two methods: format_mode and ls_stat. 
+

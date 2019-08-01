@@ -14,7 +14,6 @@ DESCRIPTION
     will build a string formated as the output of 'ls -l'.
 
   new ()
-
     Input variables:
 
       None
@@ -35,7 +34,6 @@ METHODS
     functions.
 
   Exported Tag: All
-
     The *:all* tag includes all the methods or sub-rountines defined in this
     class.
 
@@ -44,7 +42,6 @@ METHODS
     It includes the following sub-routines:
 
   format_mode ($mode)
-
     Input variables:
 
       $mode - the third element from stat
@@ -60,7 +57,6 @@ METHODS
     Return: string with permission bits such as -r-xr-xr-x.
 
   ls_stat ($fn)
-
     Input variables:
 
       $fn - file name
@@ -83,7 +79,6 @@ METHODS
                    -> /opt/bin/linked2.pl
 
   stat_attr ($fn, $typ)
-
     Input variables:
 
       $fn - file name for getting stat attributes
@@ -92,8 +87,8 @@ METHODS
       $typ - what type of object that you want it to return.
         The default is to return a hash containing filename, longname,
         and a hash ref with all the element from stat.
-        SFTP - to return a Net::SFTP::Attributes object 
-    
+        SFTP - to return a Net::SFTP::Attributes object
+
     Variables used or routines called:
 
       ls_stat
@@ -117,23 +112,16 @@ METHODS
 
       flags,perm,uid,gid,size,atime,mtime
 
-HISTORY
-    * Version 0.10
-        This version includes two methods: format_mode and ls_stat. It is
-        uploaded to CPAN on 7/11/2005.
-
-    * Version 0.11
-        07/12/2005 (htu) - added stat_attr method.
-
 SEE ALSO (some of docs that I check often)
-        Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy,
-        Oracle::Trigger, Debug::EchoMessage, CGI::Getopt, etc.
+    Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy,
+    Oracle::Trigger, Debug::EchoMessage, CGI::Getopt, etc.
 
 AUTHOR
-        Copyright (c) 2005 Hanming Tu. All rights reserved.
+    Copyright (c) 2005 Hanming Tu. All rights reserved. Portions Copyright
+    (c) 2019 D3 Engineering, LLC.
 
-        This package is free software and is provided "as is" without
-        express or implied warranty. It may be used, redistributed and/or
-        modified under the terms of the Perl Artistic License (see
-        http://www.perl.com/perl/misc/Artistic.html)
+    This package is free software and is provided "as is" without express or
+    implied warranty. It may be used, redistributed and/or modified under
+    the terms of the Perl Artistic License (see
+    http://www.perl.com/perl/misc/Artistic.html)
 

@@ -271,21 +271,6 @@ sub stat_attr {
 
 1;
 
-=head1 HISTORY
-
-=over 4
-
-=item * Version 0.10
-
-This version includes two methods: format_mode and ls_stat. 
-It is uploaded to CPAN on 7/11/2005.
-
-=item * Version 0.11
-
-07/12/2005 (htu) - added stat_attr method.
-
-=cut
-
 =head1 SEE ALSO (some of docs that I check often)
 
 Data::Describe, Oracle::Loader, CGI::Getopt, File::Xcopy, 
@@ -294,6 +279,7 @@ Oracle::Trigger, Debug::EchoMessage, CGI::Getopt, etc.
 =head1 AUTHOR
 
 Copyright (c) 2005 Hanming Tu.  All rights reserved.
+Portions Copyright (c) 2019 D3 Engineering, LLC.
 
 This package is free software and is provided "as is" without express
 or implied warranty.  It may be used, redistributed and/or modified

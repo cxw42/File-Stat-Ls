@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# Portions Copyright (c) 2019 D3 Engineering, LLC.
 use 5.006;
 use strict;
 use warnings;

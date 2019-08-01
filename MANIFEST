@@ -1,6 +1,8 @@
+Changes
 lib/File/Stat/Ls.pm
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP
 README
+README.md
 t/Ls.t
