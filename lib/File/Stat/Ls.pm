@@ -4,22 +4,17 @@ package File::Stat::Ls;
 use strict;
 use warnings;
 use Carp;
+use Fcntl ':mode';
 use POSIX qw(strftime);
 
 
-require 5.003;
+require 5.006;
 our $VERSION = '0.11';
 
-require Exporter;
-our @ISA         = qw(Exporter);
+use parent 'Exporter';
 our @EXPORT      = qw(ls_stat format_mode);
-our @EXPORT_OK   = qw(ls_stat format_mode stat_attr
-    );
-our %EXPORT_TAGS = (
-    all  => [@EXPORT_OK]
-    );
-our @IMPORT_OK   = qw(
-    );
+our @EXPORT_OK   = qw(stat_attr);
+our %EXPORT_TAGS = ( all  => [@EXPORT, @EXPORT_OK] );
 
 =head1 NAME
 
@@ -174,6 +169,8 @@ Return: the ls string such as one of the following:
   drwxr-xr-x   2 root     other         2048 Jul 12 09:50 bin
   lrwxrwxrwx   1 oracle7  dba             40 Jun 12  2002 linked.pl -> /opt/bin/linked2.pl
 
+The output B<includes> a trailing newline.
+
 =cut
 
 sub ls_stat {
@@ -181,14 +178,14 @@ sub ls_stat {
     my $fn = shift;
     my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
         $atime,$mtime,$ctime,$blksize,$blocks) = lstat $fn;
-    my @a = lstat $fn;
     my $dft = "%b %d  %Y";
     my $ud = getpwuid($uid);
     my $gd = getgrgid($gid);
     my $fm = format_mode($mode);
     my $mt = strftime $dft,localtime $mtime;
-    my $fmt = "%10s %3d %7s %4s %12d %12s %-26s\n";
-    return sprintf $fmt, $fm,$nlink,$ud,$gd,$size,$mt,$fn;
+    my $link_to = (($mode & S_IFLNK) == S_IFLNK ? " -> @{[readlink $fn]}" : "");
+    my $fmt = "%10s %3d %7s %4s %12d %12s %-s%s\n";
+    return sprintf $fmt, $fm,$nlink,$ud,$gd,$size,$mt,$fn,$link_to;
 }
 
 =head2 stat_attr ($fn, $typ)

@@ -84,6 +84,8 @@ Return: the ls string such as one of the following:
     drwxr-xr-x   2 root     other         2048 Jul 12 09:50 bin
     lrwxrwxrwx   1 oracle7  dba             40 Jun 12  2002 linked.pl -> /opt/bin/linked2.pl
 
+The output **includes** a trailing newline.
+
 ## stat\_attr ($fn, $typ)
 
 Input variables:

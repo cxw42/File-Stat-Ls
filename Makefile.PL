@@ -53,6 +53,7 @@ my %WriteMakefileArgs = (
         "ExtUtils::MakeMaker" => '0',
     },
     TEST_REQUIRES      => {
+        'Fcntl'      => '0',
         "Test::More" => '0',
     },
     PREREQ_PM          => {
@@ -81,7 +82,7 @@ my %WriteMakefileArgs = (
                 recommends => {
                     'Pod::Markdown' => '0',
                     'Pod::Text' => '0',
-                }, 
+                },
             },
         },
 
